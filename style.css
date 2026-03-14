@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.app {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.info {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 20px 0 40px;
+}
+
+.scene {
+  position: relative;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seesaw-wrapper {
+  position: relative;
+  width: 400px;
+  height: 200px;
+}
+
+.plank {
+  position: absolute;
+  left: 50%;
+  top: 90px;
+  width: 400px;
+  height: 12px;
+  background: #444;
+  border-radius: 8px;
+  transform: translateX(-50%) rotate(0deg);
+  transform-origin: center center;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.pivot {
+  position: absolute;
+  left: 50%;
+  top: 102px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 28px solid transparent;
+  border-right: 28px solid transparent;
+  border-bottom: 70px solid #e76f51;
+}
