@@ -1,64 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seesaw Simulation</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="app">
-    <header class="hero">
-      <div class="hero-text">
-        <h1>Seesaw Simulation</h1>
-        <p class="subtitle">
-          Click on the plank to drop a random weight, watch the balance shift,
-          and observe how torque changes the tilt.
-        </p>
-      </div>
-
-      <button id="reset-button" class="reset-button">Reset</button>
-      <button id="pause-button" class="pause-button">Pause</button>
-    </header>
-
-    <section class="stats">
-      <div class="stat-card left-card">
-        <span class="stat-label">Left Weıght</span>
-        <strong id="left-weight">0 kg</strong>
-      </div>
-
-      <div class="stat-card right-card">
-        <span class="stat-label">Right Weight</span>
-        <strong id="right-weight">0 kg</strong>
-      </div>
-
-      <div class="stat-card next-card">
-        <span class="stat-label">Next Weight</span>
-        <strong id="next-weight">0 kg</strong>
-      </div>
-
-      <div class="stat-card angle-card">
-        <span class="stat-label">Tilt Angle</span>
-        <strong id="tilt-angle">0°</strong>
-      </div>
-    </section>
-
-    <section class="scene-shell">
-      <div class="scene-header">
-        <h2>Interactive Scene</h2>
-      </div>
-
-      <div class="scene">
-        <div class="seesaw-wrapper">
-          <div class="plank" id="plank">
-            <div id="objects-layer"></div>
-          </div>
-          <div class="pivot"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seesaw Simulation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="hero">
+        <div class="hero-text">
+          <h1>Seesaw Simulation</h1>
+          <p class="subtitle">
+            Click on the plank to drop a random weight, watch the balance shift,
+            and observe how torque changes the tilt.
+          </p>
         </div>
-      </div>
-    </section>
-  </div>
 
-  <script src="app.js"></script>
-</body>
+        <button id="reset-button" class="reset-button">Reset</button>
+        <button id="pause-button" class="pause-button">Pause</button>
+      </header>
+
+      <section class="stats">
+        <div class="stat-card left-card">
+          <span class="stat-label">Left Weıght</span>
+          <strong id="left-weight">0 kg</strong>
+        </div>
+
+        <div class="stat-card right-card">
+          <span class="stat-label">Right Weight</span>
+          <strong id="right-weight">0 kg</strong>
+        </div>
+
+        <div class="stat-card next-card">
+          <span class="stat-label">Next Weight</span>
+          <strong id="next-weight">0 kg</strong>
+        </div>
+
+        <div class="stat-card angle-card">
+          <span class="stat-label">Tilt Angle</span>
+          <strong id="tilt-angle">0°</strong>
+        </div>
+      </section>
+
+      <section class="scene-shell">
+        <div class="scene-header">
+          <h2>Interactive Scene</h2>
+        </div>
+
+        <div class="scene">
+          <div class="seesaw-wrapper">
+            <div class="plank" id="plank">
+              <div id="objects-layer"></div>
+            </div>
+            <div class="pivot"></div>
+          </div>
+        </div>
+      </section>
+      <div class="log-panel">
+        <h3>Event Log</h3>
+        <div id="event-log"></div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
 </html>

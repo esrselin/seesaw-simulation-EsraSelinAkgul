@@ -37,7 +37,6 @@ body {
   gap: 0;
 }
 
-/* ── HERO ── */
 .hero {
   display: flex;
   align-items: center;
@@ -87,7 +86,6 @@ h1 {
 .pause-button:hover { opacity: 0.82; }
 .reset-button:active, .pause-button:active { transform: scale(0.96); }
 
-/* ── STATS ── */
 .stats {
   display: flex;
   gap: 0;
@@ -131,7 +129,6 @@ h1 {
 .next-card  { border-bottom: 2px solid var(--sand); }
 .angle-card { border-bottom: 2px solid var(--mauve); }
 
-/* ── SCENE SHELL ── */
 .scene-shell {
   border-radius: var(--radius);
   overflow: hidden;
@@ -156,15 +153,12 @@ h1 {
   color: var(--muted);
 }
 
-/* ── SCENE ── */
 .scene {
   position: relative;
   height: 360px;
   overflow: hidden;
-  
 }
 
-/* soft ground shadow */
 .scene::before {
   content: '';
   position: absolute;
@@ -175,7 +169,6 @@ h1 {
   background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08) 20%, rgba(0,0,0,0.08) 80%, transparent);
 }
 
-/* ── SEESAW ── */
 .seesaw-wrapper {
   position: absolute;
   left: 50%;
@@ -202,14 +195,11 @@ h1 {
   transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* no ::after dot */
-
 #objects-layer {
   position: absolute;
   inset: 0;
 }
 
-/* ── OBJECTS ── */
 .object {
   position: absolute;
   bottom: 11px;
@@ -288,4 +278,33 @@ h1 {
   .scene { height: 300px; }
   .seesaw-wrapper { transform: translate(-50%, -50%) scale(0.76); }
   .reset-button, .pause-button { flex: 1; }
+}
+
+.log-panel {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(0,0,0,0.08);
+  font-size: 13px;
+}
+
+.log-panel h3 {
+  margin-bottom: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #666;
+}
+
+#event-log {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.log-item {
+  font-family: monospace;
 }

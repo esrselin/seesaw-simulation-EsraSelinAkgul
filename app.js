@@ -2,6 +2,7 @@ const plank = document.getElementById("plank");
 const objectsLayer = document.getElementById("objects-layer");
 const resetButton = document.getElementById("reset-button");
 const pauseButton = document.getElementById("pause-button");
+const eventLog = document.getElementById("event-log");
 
 const leftWeightElement = document.getElementById("left-weight");
 const rightWeightElement = document.getElementById("right-weight");
@@ -24,12 +25,9 @@ function getObjectSize(weight) {
 }
 
 function getColor(weight) {
-  if (weight <= 3) 
-    return "#4CAF50";
-  if (weight <= 6) 
-    return "#FF69B4";
-  if (weight <= 9) 
-    return "#2196F3";
+  if (weight <= 3) return "#4CAF50";
+  if (weight <= 6) return "#FF69B4";
+  if (weight <= 9) return "#2196F3";
   return "#E53935";
 }
 
@@ -69,7 +67,7 @@ function getLocalDistanceFromCenter(event) {
   const wrapperRect = wrapper.getBoundingClientRect();
 
   const centerX = wrapperRect.left + wrapperRect.width / 2;
-  const plankCenterY = wrapperRect.top + 80 + 11 / 2; 
+  const plankCenterY = wrapperRect.top + 80 + 11 / 2;
 
   const dx = event.clientX - centerX;
   const dy = event.clientY - plankCenterY;
@@ -111,6 +109,26 @@ function renderObjects() {
   });
 }
 
+function addLog(weight, position) {
+  let side;
+
+  if (position < 0) {
+    side = "left";
+  } else if (position > 0) {
+    side = "right";
+  } else {
+    side = "center";
+  }
+
+  const distance = Math.abs(position);
+
+  const log = document.createElement("div");
+  log.className = "log-item";
+  log.textContent = `${weight}kg dropped on ${side} side at ${distance}px from center`;
+
+  eventLog.prepend(log);
+}
+
 function showPauseMessage() {
   let pauseMessage = document.getElementById("pause-message");
 
@@ -132,8 +150,7 @@ function hidePauseMessage() {
 function togglePause() {
   isPaused = !isPaused;
 
-  if (isPaused)
-  {
+  if (isPaused) {
     pauseButton.textContent = "Resume";
     showPauseMessage();
     return;
@@ -158,10 +175,8 @@ function loadState() {
 
   const parsedState = JSON.parse(savedState);
 
-  if (Array.isArray(parsedState.objects)) 
-    objects.push(...parsedState.objects);
-  if (parsedState.nextWeight) 
-    nextWeight = parsedState.nextWeight;
+  if (Array.isArray(parsedState.objects)) objects.push(...parsedState.objects);
+  if (parsedState.nextWeight) nextWeight = parsedState.nextWeight;
 }
 
 function syncUI() {
@@ -184,6 +199,7 @@ plank.addEventListener("click", (event) => {
 
   objects.push({ weight, position });
   renderObjects();
+  addLog(weight, position);
 
   const { leftTorque, rightTorque, leftWeight, rightWeight } = calculateStats(objects);
   const angle = calculateAngle(leftTorque, rightTorque);
