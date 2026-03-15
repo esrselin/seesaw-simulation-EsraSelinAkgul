@@ -7,8 +7,10 @@ const nextWeightElement = document.getElementById("next-weight");
 const tiltAngleElement = document.getElementById("tilt-angle");
 
 const objects = [];
+
 let nextWeight = getRandomWeight();
 let tiltTimeout;
+let currentAngle = 0;
 
 function getRandomWeight() {
   return Math.floor(Math.random() * 10) + 1;
@@ -17,10 +19,13 @@ function getRandomWeight() {
 function getColor(weight) {
   if (weight <= 3)
     return "#4CAF50";
+
   if (weight <= 6)
     return "#FF69B4";
+
   if (weight <= 9)
     return "#2196F3";
+
   return "#E53935";
 }
 
@@ -55,7 +60,7 @@ function calculateWeightTotals(objects) {
 }
 
 function calculateAngle(leftTorque, rightTorque) {
-  const rawAngle = (rightTorque - leftTorque) / 10;
+  const rawAngle = (rightTorque - leftTorque) / 25;
   return Math.max(-30, Math.min(30, rawAngle));
 }
 
@@ -64,6 +69,38 @@ function updateInfoPanel(leftWeight, rightWeight, angle) {
   rightWeightElement.textContent = `${rightWeight} kg`;
   nextWeightElement.textContent = `${nextWeight} kg`;
   tiltAngleElement.textContent = `${angle}°`;
+}
+
+function getLocalDistanceFromCenter(event) {
+  const rect = plank.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  const dx = event.clientX - centerX;
+  const dy = event.clientY - centerY;
+
+  const angleInRadians = (-currentAngle * Math.PI) / 180;
+
+  const localX =
+    dx * Math.cos(angleInRadians) - dy * Math.sin(angleInRadians);
+
+  return Math.round(localX);
+}
+
+function clampPosition(position, weight) {
+  const halfPlank = plank.clientWidth / 2;
+  const objectSize = 15 + weight * 3;
+  const objectRadius = objectSize / 2;
+
+  const min = -halfPlank + objectRadius;
+  const max = halfPlank - objectRadius;
+
+  if (position < min)
+    return Math.round(min);
+  if (position > max)
+    return Math.round(max);
+
+  return position;
 }
 
 function renderObjects() {
@@ -83,24 +120,22 @@ function renderObjects() {
     const x = plankCenter + object.position;
     el.style.left = `${x}px`;
 
-    const size = 10 + object.weight * 3;
+    const size = 15 + object.weight * 3;
     el.style.width = `${size}px`;
     el.style.height = `${size}px`;
 
     el.style.backgroundColor = getColor(object.weight);
-    el.textContent = object.weight;
+    el.textContent = `${object.weight}kg`;
 
     objectsLayer.appendChild(el);
   });
 }
 
 plank.addEventListener("click", (event) => {
-  const plankRect = plank.getBoundingClientRect();
-  const clickX = event.clientX - plankRect.left;
-  const centerX = plankRect.width / 2;
-  const distanceFromCenter = Math.round(clickX - centerX);
-
   const weight = nextWeight;
+
+  const rawDistanceFromCenter = getLocalDistanceFromCenter(event);
+  const distanceFromCenter = clampPosition(rawDistanceFromCenter, weight);
 
   const newObject = {
     weight: weight,
@@ -119,8 +154,17 @@ plank.addEventListener("click", (event) => {
 
   clearTimeout(tiltTimeout);
   tiltTimeout = setTimeout(() => {
+    currentAngle = angle;
     plank.style.transform = `translateX(-50%) rotate(${angle}deg)`;
   }, 450);
+
+  console.log("Raw distance:", rawDistanceFromCenter);
+  console.log("Clamped distance:", distanceFromCenter);
+  console.log("Left torque:", leftTorque);
+  console.log("Right torque:", rightTorque);
+  console.log("Angle:", angle);
+  console.log("New object:", newObject);
+  console.log("All objects:", objects);
 });
 
 updateInfoPanel(0, 0, 0);
