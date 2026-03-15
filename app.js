@@ -1,5 +1,6 @@
 const plank = document.getElementById("plank");
 const objectsLayer = document.getElementById("objects-layer");
+const resetButton = document.getElementById("reset-button");
 
 const leftWeightElement = document.getElementById("left-weight");
 const rightWeightElement = document.getElementById("right-weight");
@@ -83,7 +84,7 @@ function getLocalDistanceFromCenter(event) {
 
 function clampPosition(position, weight) {
   const halfPlank = plank.clientWidth / 2;
-  const objectSize = 15 + weight * 3;
+  const objectSize = 22 + weight * 3;
   const objectRadius = objectSize / 2;
 
   const min = -halfPlank + objectRadius;
@@ -112,7 +113,7 @@ function renderObjects() {
     const x = plankCenter + object.position;
     el.style.left = `${x}px`;
 
-    const size = 15 + object.weight * 3;
+    const size = 22 + object.weight * 3;
     el.style.width = `${size}px`;
     el.style.height = `${size}px`;
 
@@ -121,6 +122,11 @@ function renderObjects() {
 
     objectsLayer.appendChild(el);
   });
+}
+
+function resetSeesaw() {
+  localStorage.removeItem("seesawState")
+  location.reload()
 }
 
 function saveState() {
@@ -189,7 +195,7 @@ plank.addEventListener("click", (event) => {
   tiltTimeout = setTimeout(() => {
     currentAngle = angle;
     plank.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-  }, 450);
+  }, 350);
 
   console.log("Raw distance:", rawDistanceFromCenter);
   console.log("Clamped distance:", distanceFromCenter);
@@ -199,6 +205,8 @@ plank.addEventListener("click", (event) => {
   console.log("New object:", newObject);
   console.log("All objects:", objects);
 });
+
+resetButton.addEventListener("click", resetSeesaw);
 
 loadState();
 syncUI();
